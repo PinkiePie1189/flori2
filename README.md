@@ -1,1 +1,1 @@
-# Time Elapsed: 2 HOURS
+# Time Elapsed: 2 Hours
