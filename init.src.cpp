@@ -23,13 +23,11 @@
 // <http://www.gnu.org/licenses/>.
 
 //INPUT FILE: in.txt
-
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
 #include <algorithm>
 using namespace std;
-
 ifstream in("flori2.in");
 ofstream out("flori2.out");
 
@@ -40,7 +38,7 @@ struct nr
 };
 bool AlreadyExists(int v[],int lim,int x)
 {
-    for(register int i=0;i<=lim;i++)
+    for(register int i=0; i<=lim; i++)
     {
         if(v[i]==x) return true;
     }
@@ -48,8 +46,8 @@ bool AlreadyExists(int v[],int lim,int x)
 }
 
 nr jojer[101];
-
-int content[151][151];
+int content[151];
+int val[151];
 
 int main()
 {
@@ -59,27 +57,68 @@ int main()
     int winrar,maxi;
     cin>>load>>quant;
 
-    for(register int i=0;i<=load-1;i++)
+    for(register int i=0; i<=load-1; i++)
     {
-        for(register int k=0;k<=quant-1;k++)
+        for(register int k=0; k<=quant-1; k++)
         {
-            cin>>cobai;
-            if(!(AlreadyExists(content[0],k-1,cobai)))
+            in>>cobai;
+            if(!(AlreadyExists(content,k-1,cobai)))
             {
                 jojer[cobai].v[jojer[cobai].ctr]=i;
                 jojer[cobai].ctr++;
             }
-            content[0][k]=cobai;
+            content[k]=cobai;
         }
     }
-
     //AFISAJ
-    for(register int i=0;i<=10;i++)
+    /*for(register int i=0;i<=10;i++)
     {
         cout<<"pentru "<<i<<" avem "<<jojer[i].ctr<<" aparitii, in vectorii:\n";
         for(register int k=0;k<=jojer[i].ctr-1;k++)
         {
             cout<<jojer[i].v[k]<<'\n';
+        }
+        cout<<'\n';
+    }*/
+    bool already;
+    int ret;
+    int nrechipe=0;
+    for(register int i=0; i<=100; i++)
+    {
+        if(jojer[i].ctr>=1)
+        {
+            already=false;
+            for(register int k=0; k<=jojer[i].ctr-1; k++)
+            {
+                if(val[jojer[i].v[k]]!=0)
+                {
+                    ret=val[jojer[i].v[k]];
+                    already=true;
+                }
+            }
+            if(already)
+                for(register int k=0; k<=jojer[i].ctr-1; k++)
+                {
+                    val[jojer[i].v[k]]=ret;
+                }
+            else
+            {
+                nrechipe++;
+                for(register int k=0; k<=jojer[i].ctr-1; k++)
+                {
+                    val[jojer[i].v[k]]=nrechipe;
+                }
+            }
+        }
+    }
+    for(register int i=1;i<=nrechipe;i++)
+    {
+        for(register int k=0;k<=100;k++)
+        {
+            if(val[k]==i)
+            {
+                cout<<k+1<<" ";
+            }
         }
         cout<<'\n';
     }
